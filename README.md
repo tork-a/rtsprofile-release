@@ -1,3 +1,26 @@
+## rtsprofile (lunar) - 2.0.0-0
+
+The packages in the `rtsprofile` repository were released into the `lunar` distro by running `/usr/bin/bloom-release rtsprofile --rosdistro lunar --track lunar` on `Wed, 29 Aug 2018 12:54:07 -0000`
+
+The `rtsprofile` package was released.
+
+Version of package(s) in repository `rtsprofile`:
+
+- upstream repository: https://github.com/gbiggs/rtsprofile.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `2.0.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.6`
+- catkin_pkg version: `0.4.8`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.9`
+- vcstools version: `0.1.40`
+
+
 ## rtsprofile (kinetic) - 2.0.0-0
 
 The packages in the `rtsprofile` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release rtsprofile -t kinetic -r kinetic` on `Fri, 22 Apr 2016 03:55:28 -0000`
