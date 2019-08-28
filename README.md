@@ -1,3 +1,26 @@
+## rtsprofile (melodic) - 2.0.0-1
+
+The packages in the `rtsprofile` repository were released into the `melodic` distro by running `/usr/bin/bloom-release rtsprofile --rosdistro melodic --track melodic` on `Wed, 28 Aug 2019 05:58:18 -0000`
+
+The `rtsprofile` package was released.
+
+Version of package(s) in repository `rtsprofile`:
+
+- upstream repository: https://github.com/gbiggs/rtsprofile.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `2.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.8.0`
+- catkin_pkg version: `0.4.12`
+- rosdep version: `0.15.2`
+- rosdistro version: `0.7.4`
+- vcstools version: `0.1.42`
+
+
 ## rtsprofile (lunar) - 2.0.0-0
 
 The packages in the `rtsprofile` repository were released into the `lunar` distro by running `/usr/bin/bloom-release rtsprofile --rosdistro lunar --track lunar` on `Wed, 29 Aug 2018 12:54:07 -0000`
