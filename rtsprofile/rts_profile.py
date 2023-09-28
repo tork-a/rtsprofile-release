@@ -140,9 +140,9 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
 
     @id.setter
     def id(self, id):
-        print 'setting id to ', id
+        print('setting id to ', id)
         validate_attribute(id, 'rts_profile.id',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._id = id
 
     @property
@@ -157,7 +157,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
     @abstract.setter
     def abstract(self, abstract):
         validate_attribute(abstract, 'rts_profile.abstract',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._abstract = abstract
 
     @property
@@ -172,7 +172,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
     @creation_date.setter
     def creation_date(self, creation_date):
         validate_attribute(creation_date, 'rts_profile.creationDate',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._creation_date = creation_date
 
     @property
@@ -187,7 +187,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
     @update_date.setter
     def update_date(self, update_date):
         validate_attribute(update_date, 'rts_profile.updateDate',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._update_date = update_date
 
     @property
@@ -198,7 +198,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
     @version.setter
     def version(self, version):
         validate_attribute(version, 'rts_profile.version',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._version = version
 
     @property
@@ -357,7 +357,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
     @comment.setter
     def comment(self, comment):
         validate_attribute(comment, 'rtsprofile.ext.comment',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._comment = comment
 
     @property
@@ -484,7 +484,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
 
     def parse_from_xml(self, xml_spec):
         '''Parse a string or file containing an XML specification.'''
-        if type(xml_spec) == str or type(xml_spec) == unicode:
+        if type(xml_spec) == str or type(xml_spec) == str:
             dom = xml.dom.minidom.parseString(xml_spec)
         else:
             dom = xml.dom.minidom.parse(xml_spec)
@@ -570,7 +570,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
             if c.nodeType == c.TEXT_NODE:
                 self._version_up_log.append(c.data)
             else:
-                print >>sys.stderr, 'Warning: bad VersionUpLog node type.'
+                print('Warning: bad VersionUpLog node type.', file=sys.stderr)
         for c in get_direct_child_elements_xml(root, prefix=RTS_EXT_NS,
                                                local_name='Properties'):
             name, value = parse_properties_xml(c)
