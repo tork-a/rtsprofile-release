@@ -52,10 +52,10 @@ class TargetComponent(object):
 
         '''
         validate_attribute(component_id, 'target_component.componentID',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._component_id = component_id
         validate_attribute(instance_name, 'target_component.instanceName',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._instance_name = instance_name
         self._properties = {}
 
@@ -81,7 +81,7 @@ class TargetComponent(object):
     @component_id.setter
     def component_id(self, component_id):
         validate_attribute(component_id, 'target_component.componentID',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._component_id = component_id
 
     @property
@@ -97,7 +97,7 @@ class TargetComponent(object):
     @instance_name.setter
     def instance_name(self, instance_name):
         validate_attribute(instance_name, 'target_component.instanceName',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._instance_name = instance_name
 
     @property
@@ -190,7 +190,7 @@ class TargetPort(TargetComponent):
         '''
         super(TargetPort, self).__init__(component_id, instance_name)
         validate_attribute(port_name, 'target_port.portName',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._port_name = port_name
 
     def __str__(self):
@@ -205,7 +205,7 @@ class TargetPort(TargetComponent):
     @port_name.setter
     def port_name(self, port_name):
         validate_attribute(port_name, 'target_port.portName',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._port_name = port_name
 
     def parse_xml_node(self, node):
@@ -258,7 +258,7 @@ class TargetExecutionContext(TargetComponent):
         super(TargetExecutionContext, self).__init__(component_id,
                                                      instance_name)
         validate_attribute(id, 'target_executioncontext.id',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._id = id
         self._properties = {}
 
@@ -278,7 +278,7 @@ class TargetExecutionContext(TargetComponent):
     @id.setter
     def id(self, id):
         validate_attribute(id, 'target_executioncontext.id',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._id = id
 
     @property

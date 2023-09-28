@@ -50,10 +50,10 @@ class DataPort(object):
 
         '''
         validate_attribute(name, 'dataPort.name',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._name = name
         validate_attribute(comment, 'component.ext.comment',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._comment = comment
         validate_attribute(visible, 'component.ext.visible',
                            expected_type=bool, required=False)
@@ -83,7 +83,7 @@ class DataPort(object):
     @name.setter
     def name(self, name):
         validate_attribute(name, 'dataPort.name',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._name = name
 
     @property
@@ -101,7 +101,7 @@ class DataPort(object):
     @comment.setter
     def comment(self, comment):
         validate_attribute(comment, 'dataPort.ext.comment',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._comment = comment
 
     @property
@@ -230,10 +230,10 @@ class ServicePort(object):
 
         '''
         validate_attribute(name, 'serviceport.name',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._name = name
         validate_attribute(comment, 'component.ext.comment',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._comment = comment
         validate_attribute(visible, 'component.ext.visible',
                            expected_type=bool, required=False)
@@ -263,7 +263,7 @@ class ServicePort(object):
     @name.setter
     def name(self, name):
         validate_attribute(name, 'serviceport.name',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._name = name
 
     @property
@@ -281,7 +281,7 @@ class ServicePort(object):
     @comment.setter
     def comment(self, comment):
         validate_attribute(comment, 'serviceport.ext.comment',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._comment = comment
 
     @property
