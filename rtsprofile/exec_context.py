@@ -49,10 +49,10 @@ class ExecutionContext(object):
 
         '''
         validate_attribute(id, 'execution_context.id',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._id = id
         validate_attribute(kind, 'execution_context.kind',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._kind = kind
         validate_attribute(rate, 'execution_context.rate',
                            expected_type=[int, float], required=False)
@@ -81,7 +81,7 @@ class ExecutionContext(object):
     @id.setter
     def id(self, id):
         validate_attribute(id, 'execution_context.id',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._id = id
 
     @property
@@ -99,7 +99,7 @@ class ExecutionContext(object):
     @kind.setter
     def kind(self, kind):
         validate_attribute(kind, 'execution_context.kind',
-                           expected_type=[str, unicode], required=True)
+                           expected_type=[str, str], required=True)
         self._kind = kind
 
     @property
