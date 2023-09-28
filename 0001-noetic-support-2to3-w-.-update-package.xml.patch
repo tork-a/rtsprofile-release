@@ -1,0 +1,737 @@
+From 10b979269b7f3d4ee1dc6855bd5d674320d3e4d1 Mon Sep 17 00:00:00 2001
+From: Kei Okada <k-okada@jsk.t.u-tokyo.ac.jp>
+Date: Thu, 28 Sep 2023 17:01:51 +0900
+Subject: [PATCH] noetic support: 2to3 -w ., update package.xml
+
+---
+ package.xml                   |  2 +-
+ rtsprofile/component.py       | 20 ++++++++--------
+ rtsprofile/component_group.py |  4 ++--
+ rtsprofile/config_set.py      | 12 +++++-----
+ rtsprofile/exec_context.py    |  8 +++----
+ rtsprofile/message_sending.py |  4 ++--
+ rtsprofile/port_connectors.py | 44 +++++++++++++++++------------------
+ rtsprofile/ports.py           | 16 ++++++-------
+ rtsprofile/rts_profile.py     | 18 +++++++-------
+ rtsprofile/targets.py         | 16 ++++++-------
+ test/test.py                  | 41 ++++++++++++++++----------------
+ 11 files changed, 92 insertions(+), 93 deletions(-)
+
+diff --git a/package.xml b/package.xml
+index 9ded676..cf74992 100644
+--- a/package.xml
++++ b/package.xml
+@@ -19,7 +19,7 @@
+ 
+   <buildtool_depend>catkin</buildtool_depend>
+ 
+-  <build_depend>python-setuptools</build_depend>
++  <build_depend>python3-setuptools</build_depend>
+   <build_depend>python-omniorb</build_depend>
+ 
+   <export>
+diff --git a/rtsprofile/component.py b/rtsprofile/component.py
+index 0ee518e..e3910c2 100644
+--- a/rtsprofile/component.py
++++ b/rtsprofile/component.py
+@@ -68,17 +68,17 @@ class Component(object):
+         '''
+         self._reset()
+         validate_attribute(id, 'component.id',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._id = id
+         validate_attribute(path_uri, 'component.pathUri',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._path_uri = path_uri
+         validate_attribute(active_configuration_set,
+                            'component.activeConfigurationSet',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._active_config_set = active_configuration_set
+         validate_attribute(instance_name, 'component.instanceName',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._instance_name = instance_name
+         validate_attribute(composite_type, 'component.compositeType',
+                            expected_type=comp_type.const_type, required=False)
+@@ -87,7 +87,7 @@ class Component(object):
+                            expected_type=bool)
+         self._is_required = is_required
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+         validate_attribute(visible, 'component.ext.visible',
+                            expected_type=bool, required=False)
+@@ -150,7 +150,7 @@ configuration set: {2}\n  Composite type: {4}\n  Is required: {5}\n'.format(\
+     @id.setter
+     def id(self, id):
+         validate_attribute(id, 'component.id',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._id = id
+ 
+     @property
+@@ -161,7 +161,7 @@ configuration set: {2}\n  Composite type: {4}\n  Is required: {5}\n'.format(\
+     @path_uri.setter
+     def path_uri(self, path_uri):
+         validate_attribute(path_uri, 'component.pathUri',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._path_uri = path_uri
+ 
+     @property
+@@ -177,7 +177,7 @@ configuration set: {2}\n  Composite type: {4}\n  Is required: {5}\n'.format(\
+     def active_configuration_set(self, active_config_set):
+         validate_attribute(active_config_set,
+                            'component.activeConfigurationSet',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._active_config_set = active_config_set
+ 
+     @property
+@@ -194,7 +194,7 @@ configuration set: {2}\n  Composite type: {4}\n  Is required: {5}\n'.format(\
+     @instance_name.setter
+     def instance_name(self, instance_name):
+         validate_attribute(instance_name, 'component.instanceName',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._instance_name = instance_name
+ 
+     @property
+@@ -326,7 +326,7 @@ configuration set: {2}\n  Composite type: {4}\n  Is required: {5}\n'.format(\
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+diff --git a/rtsprofile/component_group.py b/rtsprofile/component_group.py
+index 5b68edf..c0f0e97 100644
+--- a/rtsprofile/component_group.py
++++ b/rtsprofile/component_group.py
+@@ -43,7 +43,7 @@ class ComponentGroup(object):
+ 
+         '''
+         validate_attribute(group_id, 'component_group.groupID',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._group_id = group_id
+         validate_attribute(members, 'component_group.Members',
+                            expected_type=list, required=False)
+@@ -65,7 +65,7 @@ class ComponentGroup(object):
+     @group_id.setter
+     def group_id(self, group_id):
+         validate_attribute(group_id, 'component_group.groupID',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._group_id = group_id
+ 
+     @property
+diff --git a/rtsprofile/config_set.py b/rtsprofile/config_set.py
+index e048e5f..b717733 100644
+--- a/rtsprofile/config_set.py
++++ b/rtsprofile/config_set.py
+@@ -47,7 +47,7 @@ class ConfigurationSet(object):
+ 
+         '''
+         validate_attribute(id, 'configuration_set.id',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._id = id
+         self._config_data = []
+ 
+@@ -88,7 +88,7 @@ class ConfigurationSet(object):
+     @id.setter
+     def id(self, id):
+         validate_attribute(id, 'configuration_set.id',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._id = id
+ 
+     def parse_xml_node(self, node):
+@@ -150,10 +150,10 @@ class ConfigurationData(object):
+ 
+         '''
+         validate_attribute(name, 'configuration_set.name',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._name = name
+         validate_attribute(data, 'configuration_set.data',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._data = data
+ 
+     def __str__(self):
+@@ -171,7 +171,7 @@ class ConfigurationData(object):
+     @data.setter
+     def data(self, data):
+         validate_attribute(data, 'configuration_set.data',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._data = data
+ 
+     @property
+@@ -186,7 +186,7 @@ class ConfigurationData(object):
+     @name.setter
+     def name(self, name):
+         validate_attribute(name, 'configuration_set.name',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._name = name
+ 
+     def parse_xml_node(self, node):
+diff --git a/rtsprofile/exec_context.py b/rtsprofile/exec_context.py
+index 4fe4815..cc9bed5 100644
+--- a/rtsprofile/exec_context.py
++++ b/rtsprofile/exec_context.py
+@@ -49,10 +49,10 @@ class ExecutionContext(object):
+ 
+         '''
+         validate_attribute(id, 'execution_context.id',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._id = id
+         validate_attribute(kind, 'execution_context.kind',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._kind = kind
+         validate_attribute(rate, 'execution_context.rate',
+                            expected_type=[int, float], required=False)
+@@ -81,7 +81,7 @@ class ExecutionContext(object):
+     @id.setter
+     def id(self, id):
+         validate_attribute(id, 'execution_context.id',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._id = id
+ 
+     @property
+@@ -99,7 +99,7 @@ class ExecutionContext(object):
+     @kind.setter
+     def kind(self, kind):
+         validate_attribute(kind, 'execution_context.kind',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._kind = kind
+ 
+     @property
+diff --git a/rtsprofile/message_sending.py b/rtsprofile/message_sending.py
+index e10f973..0013dae 100644
+--- a/rtsprofile/message_sending.py
++++ b/rtsprofile/message_sending.py
+@@ -366,7 +366,7 @@ class Preceding(Condition):
+                            expected_type=int, required=False)
+         self._timeout = timeout
+         validate_attribute(sending_timing, 'preceding.sendingTiming',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._sending_timing = sending_timing
+         validate_attribute(preceding_components,
+                            'preceding.PrecedingComponents',
+@@ -413,7 +413,7 @@ class Preceding(Condition):
+     @sending_timing.setter
+     def sending_timing(self, sending_timing):
+         validate_attribute(sending_timing, 'preceding.sendingTiming',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._sending_timing = sending_timing
+ 
+     @property
+diff --git a/rtsprofile/port_connectors.py b/rtsprofile/port_connectors.py
+index fe22bbd..e1908dc 100644
+--- a/rtsprofile/port_connectors.py
++++ b/rtsprofile/port_connectors.py
+@@ -69,23 +69,23 @@ class DataPortConnector(object):
+ 
+         '''
+         validate_attribute(connector_id, 'dataport_connector.connectorID',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._connector_id = connector_id
+         validate_attribute(name, 'dataport_connector.name',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._name = name
+         validate_attribute(data_type, 'dataport_connector.dataType',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._data_type = data_type
+         validate_attribute(interface_type, 'dataport_connector.interfaceType',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._interface_type = interface_type
+         validate_attribute(data_flow_type, 'dataport_connector.dataflowType',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._data_flow_type = data_flow_type
+         validate_attribute(subscription_type,
+                            'dataport_connector.subscriptionType',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._subscription_type = subscription_type
+         validate_attribute(push_interval, 'dataport_connector.pushInterval',
+                            expected_type=[int, float], required=False)
+@@ -99,7 +99,7 @@ class DataPortConnector(object):
+                            expected_type=TargetPort, required=False)
+         self._target_data_port = target_data_port
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+         validate_attribute(visible, 'component.ext.visible',
+                            expected_type=bool, required=False)
+@@ -131,7 +131,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @connector_id.setter
+     def connector_id(self, connector_id):
+         validate_attribute(connector_id, 'dataport_connector.connectorID',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._connector_id = connector_id
+ 
+     @property
+@@ -142,7 +142,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @name.setter
+     def name(self, name):
+         validate_attribute(name, 'dataport_connector.name',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._name = name
+ 
+     @property
+@@ -153,7 +153,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @data_type.setter
+     def data_type(self, data_type):
+         validate_attribute(data_type, 'dataport_connector.dataType',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._data_type = data_type
+ 
+     @property
+@@ -169,7 +169,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @interface_type.setter
+     def interface_type(self, interface_type):
+         validate_attribute(interface_type, 'dataport_connector.interfaceType',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._interface_type = interface_type
+ 
+     @property
+@@ -185,7 +185,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @data_flow_type.setter
+     def data_flow_type(self, data_flow_type):
+         validate_attribute(data_flow_type, 'dataport_connector.dataflowType',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._data_flow_type = data_flow_type
+ 
+     @property
+@@ -203,7 +203,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     def subscription_type(self, subscription_type):
+         validate_attribute(subscription_type,
+                            'dataport_connector.subscriptionType',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._subscription_type = subscription_type
+ 
+     @property
+@@ -260,7 +260,7 @@ interval: {6}\n  Source data port:\n{7}\n  Target data port:\n{8}\n'.format(\
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'dataport_connector.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+@@ -471,13 +471,13 @@ class ServicePortConnector(object):
+ 
+         '''
+         validate_attribute(connector_id, 'serviceport_connector.connectorID',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._connector_id = connector_id
+         validate_attribute(name, 'serviceport_connector.name',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._name = name
+         validate_attribute(trans_method, 'serviceport_connector.transMethod',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._trans_method = trans_method
+         validate_attribute(source_service_port,
+                            'serviceport_connector.sourceServicePort',
+@@ -488,7 +488,7 @@ class ServicePortConnector(object):
+                            expected_type=TargetPort, required=True)
+         self._target_service_port = target_service_port
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+         validate_attribute(visible, 'component.ext.visible',
+                            expected_type=bool, required=False)
+@@ -519,7 +519,7 @@ Source data port:\n{3}\n  Target data port:\n{4}'.format(self.connector_id,
+     @connector_id.setter
+     def connector_id(self, connector_id):
+         validate_attribute(connector_id, 'serviceport_connector.connectorID',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._connector_id = connector_id
+ 
+     @property
+@@ -530,7 +530,7 @@ Source data port:\n{3}\n  Target data port:\n{4}'.format(self.connector_id,
+     @name.setter
+     def name(self, name):
+         validate_attribute(name, 'serviceport_connector.name',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._name = name
+ 
+     @property
+@@ -546,7 +546,7 @@ Source data port:\n{3}\n  Target data port:\n{4}'.format(self.connector_id,
+     @trans_method.setter
+     def trans_method(self, trans_method):
+         validate_attribute(trans_method, 'serviceport_connector.transMethod',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._trans_method = trans_method
+ 
+     @property
+@@ -588,7 +588,7 @@ Source data port:\n{3}\n  Target data port:\n{4}'.format(self.connector_id,
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'serviceport_connector.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+diff --git a/rtsprofile/ports.py b/rtsprofile/ports.py
+index ece0404..512c979 100644
+--- a/rtsprofile/ports.py
++++ b/rtsprofile/ports.py
+@@ -50,10 +50,10 @@ class DataPort(object):
+ 
+         '''
+         validate_attribute(name, 'dataPort.name',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._name = name
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+         validate_attribute(visible, 'component.ext.visible',
+                            expected_type=bool, required=False)
+@@ -83,7 +83,7 @@ class DataPort(object):
+     @name.setter
+     def name(self, name):
+         validate_attribute(name, 'dataPort.name',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._name = name
+ 
+     @property
+@@ -101,7 +101,7 @@ class DataPort(object):
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'dataPort.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+@@ -230,10 +230,10 @@ class ServicePort(object):
+ 
+         '''
+         validate_attribute(name, 'serviceport.name',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._name = name
+         validate_attribute(comment, 'component.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+         validate_attribute(visible, 'component.ext.visible',
+                            expected_type=bool, required=False)
+@@ -263,7 +263,7 @@ class ServicePort(object):
+     @name.setter
+     def name(self, name):
+         validate_attribute(name, 'serviceport.name',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._name = name
+ 
+     @property
+@@ -281,7 +281,7 @@ class ServicePort(object):
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'serviceport.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+diff --git a/rtsprofile/rts_profile.py b/rtsprofile/rts_profile.py
+index 37a3d23..2b74703 100644
+--- a/rtsprofile/rts_profile.py
++++ b/rtsprofile/rts_profile.py
+@@ -140,9 +140,9 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+ 
+     @id.setter
+     def id(self, id):
+-        print 'setting id to ', id
++        print('setting id to ', id)
+         validate_attribute(id, 'rts_profile.id',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._id = id
+ 
+     @property
+@@ -157,7 +157,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+     @abstract.setter
+     def abstract(self, abstract):
+         validate_attribute(abstract, 'rts_profile.abstract',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._abstract = abstract
+ 
+     @property
+@@ -172,7 +172,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+     @creation_date.setter
+     def creation_date(self, creation_date):
+         validate_attribute(creation_date, 'rts_profile.creationDate',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._creation_date = creation_date
+ 
+     @property
+@@ -187,7 +187,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+     @update_date.setter
+     def update_date(self, update_date):
+         validate_attribute(update_date, 'rts_profile.updateDate',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._update_date = update_date
+ 
+     @property
+@@ -198,7 +198,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+     @version.setter
+     def version(self, version):
+         validate_attribute(version, 'rts_profile.version',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._version = version
+ 
+     @property
+@@ -357,7 +357,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+     @comment.setter
+     def comment(self, comment):
+         validate_attribute(comment, 'rtsprofile.ext.comment',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._comment = comment
+ 
+     @property
+@@ -484,7 +484,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+ 
+     def parse_from_xml(self, xml_spec):
+         '''Parse a string or file containing an XML specification.'''
+-        if type(xml_spec) == str or type(xml_spec) == unicode:
++        if type(xml_spec) == str or type(xml_spec) == str:
+             dom = xml.dom.minidom.parseString(xml_spec)
+         else:
+             dom = xml.dom.minidom.parse(xml_spec)
+@@ -570,7 +570,7 @@ Update date: {3}\nVersion: {4}\n'.format(self.id, self.abstract,
+             if c.nodeType == c.TEXT_NODE:
+                 self._version_up_log.append(c.data)
+             else:
+-                print >>sys.stderr, 'Warning: bad VersionUpLog node type.'
++                print('Warning: bad VersionUpLog node type.', file=sys.stderr)
+         for c in get_direct_child_elements_xml(root, prefix=RTS_EXT_NS,
+                                                local_name='Properties'):
+             name, value = parse_properties_xml(c)
+diff --git a/rtsprofile/targets.py b/rtsprofile/targets.py
+index 6b52715..b9309b7 100644
+--- a/rtsprofile/targets.py
++++ b/rtsprofile/targets.py
+@@ -52,10 +52,10 @@ class TargetComponent(object):
+ 
+         '''
+         validate_attribute(component_id, 'target_component.componentID',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._component_id = component_id
+         validate_attribute(instance_name, 'target_component.instanceName',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._instance_name = instance_name
+         self._properties = {}
+ 
+@@ -81,7 +81,7 @@ class TargetComponent(object):
+     @component_id.setter
+     def component_id(self, component_id):
+         validate_attribute(component_id, 'target_component.componentID',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._component_id = component_id
+ 
+     @property
+@@ -97,7 +97,7 @@ class TargetComponent(object):
+     @instance_name.setter
+     def instance_name(self, instance_name):
+         validate_attribute(instance_name, 'target_component.instanceName',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._instance_name = instance_name
+ 
+     @property
+@@ -190,7 +190,7 @@ class TargetPort(TargetComponent):
+         '''
+         super(TargetPort, self).__init__(component_id, instance_name)
+         validate_attribute(port_name, 'target_port.portName',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._port_name = port_name
+ 
+     def __str__(self):
+@@ -205,7 +205,7 @@ class TargetPort(TargetComponent):
+     @port_name.setter
+     def port_name(self, port_name):
+         validate_attribute(port_name, 'target_port.portName',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._port_name = port_name
+ 
+     def parse_xml_node(self, node):
+@@ -258,7 +258,7 @@ class TargetExecutionContext(TargetComponent):
+         super(TargetExecutionContext, self).__init__(component_id,
+                                                      instance_name)
+         validate_attribute(id, 'target_executioncontext.id',
+-                           expected_type=[str, unicode], required=False)
++                           expected_type=[str, str], required=False)
+         self._id = id
+         self._properties = {}
+ 
+@@ -278,7 +278,7 @@ class TargetExecutionContext(TargetComponent):
+     @id.setter
+     def id(self, id):
+         validate_attribute(id, 'target_executioncontext.id',
+-                           expected_type=[str, unicode], required=True)
++                           expected_type=[str, str], required=True)
+         self._id = id
+ 
+     @property
+diff --git a/test/test.py b/test/test.py
+index b420a82..cd56850 100644
+--- a/test/test.py
++++ b/test/test.py
+@@ -31,8 +31,7 @@ from traceback import print_exc
+ 
+ 
+ def main(argv):
+-    print \
+-'''This test loads a given XML or YAML file (type determined by the extension)
++    print('''This test loads a given XML or YAML file (type determined by the extension)
+ into an RtsProfile object. The object is printed to a string, which is stored.
+ 
+ It then attempts to save the object using the XML output. This output is loaded
+@@ -40,7 +39,7 @@ back in, printed to a string, and that string compared to the original. They
+ should be the same.
+ 
+ This save-load-check process is then repeated for the YAML output.
+-'''
++''')
+ 
+     # Load the input
+     input_name = argv[1]
+@@ -51,12 +50,12 @@ This save-load-check process is then repeated for the YAML output.
+     elif type == 'yaml':
+         orig_prof = RtsProfile(yaml_spec=f)
+     else:
+-        print >>sys.stderr, 'Unknown input type: {0}'.format(type)
++        print('Unknown input type: {0}'.format(type), file=sys.stderr)
+         return 1
+     f.close()
+     orig_prof_str = str(orig_prof)
+-    print 'Loaded original.'
+-    print
++    print('Loaded original.')
++    print()
+ 
+     # Test XML output
+     failed = False
+@@ -64,21 +63,21 @@ This save-load-check process is then repeated for the YAML output.
+     xml_prof_str = ''
+     try:
+         xml_output = orig_prof.save_to_xml()
+-        print 'Saved as XML.'
++        print('Saved as XML.')
+         xml_prof = RtsProfile(xml_spec=xml_output)
+-        print 'Loaded XML.'
++        print('Loaded XML.')
+         xml_prof_str = str(xml_prof)
+-        print 'Printed XML.'
+-        print
++        print('Printed XML.')
++        print()
+     except:
+         print_exc()
+-        print
++        print()
+         failed = True
+     if xml_prof_str != orig_prof_str:
+-        print 'XML profile does not equal original profile.'
++        print('XML profile does not equal original profile.')
+         failed = True
+     if failed:
+-        print >>sys.stderr, 'XML test failed.'
++        print('XML test failed.', file=sys.stderr)
+         f = open('original_prof.dump', 'w')
+         f.write(orig_prof_str)
+         f.close()
+@@ -96,21 +95,21 @@ This save-load-check process is then repeated for the YAML output.
+     yaml_prof_str = ''
+     try:
+         yaml_output = orig_prof.save_to_yaml()
+-        print 'Saved as YAML.'
++        print('Saved as YAML.')
+         yaml_prof = RtsProfile(yaml_spec=yaml_output)
+-        print 'Loaded YAML.'
++        print('Loaded YAML.')
+         yaml_prof_str = str(yaml_prof)
+-        print 'Printed YAML.'
+-        print
++        print('Printed YAML.')
++        print()
+     except:
+         print_exc()
+-        print
++        print()
+         failed = True
+     if yaml_prof_str != orig_prof_str:
+-        print 'YAML profile does not equal original profile.'
++        print('YAML profile does not equal original profile.')
+         failed = True
+     if failed:
+-        print >>sys.stderr, 'YAML test failed.'
++        print('YAML test failed.', file=sys.stderr)
+         f = open('original_prof.dump', 'w')
+         f.write(orig_prof_str)
+         f.close()
+@@ -122,7 +121,7 @@ This save-load-check process is then repeated for the YAML output.
+         f.close()
+         return 1
+ 
+-    print >>sys.stderr, 'Tests passed.'
++    print('Tests passed.', file=sys.stderr)
+     return 0
+ 
+ 
+-- 
+2.25.1
+
