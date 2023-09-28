@@ -31,7 +31,8 @@ from traceback import print_exc
 
 
 def main(argv):
-    print('''This test loads a given XML or YAML file (type determined by the extension)
+    print \
+'''This test loads a given XML or YAML file (type determined by the extension)
 into an RtsProfile object. The object is printed to a string, which is stored.
 
 It then attempts to save the object using the XML output. This output is loaded
@@ -39,7 +40,7 @@ back in, printed to a string, and that string compared to the original. They
 should be the same.
 
 This save-load-check process is then repeated for the YAML output.
-''')
+'''
 
     # Load the input
     input_name = argv[1]
@@ -50,12 +51,12 @@ This save-load-check process is then repeated for the YAML output.
     elif type == 'yaml':
         orig_prof = RtsProfile(yaml_spec=f)
     else:
-        print('Unknown input type: {0}'.format(type), file=sys.stderr)
+        print >>sys.stderr, 'Unknown input type: {0}'.format(type)
         return 1
     f.close()
     orig_prof_str = str(orig_prof)
-    print('Loaded original.')
-    print()
+    print 'Loaded original.'
+    print
 
     # Test XML output
     failed = False
@@ -63,21 +64,21 @@ This save-load-check process is then repeated for the YAML output.
     xml_prof_str = ''
     try:
         xml_output = orig_prof.save_to_xml()
-        print('Saved as XML.')
+        print 'Saved as XML.'
         xml_prof = RtsProfile(xml_spec=xml_output)
-        print('Loaded XML.')
+        print 'Loaded XML.'
         xml_prof_str = str(xml_prof)
-        print('Printed XML.')
-        print()
+        print 'Printed XML.'
+        print
     except:
         print_exc()
-        print()
+        print
         failed = True
     if xml_prof_str != orig_prof_str:
-        print('XML profile does not equal original profile.')
+        print 'XML profile does not equal original profile.'
         failed = True
     if failed:
-        print('XML test failed.', file=sys.stderr)
+        print >>sys.stderr, 'XML test failed.'
         f = open('original_prof.dump', 'w')
         f.write(orig_prof_str)
         f.close()
@@ -95,21 +96,21 @@ This save-load-check process is then repeated for the YAML output.
     yaml_prof_str = ''
     try:
         yaml_output = orig_prof.save_to_yaml()
-        print('Saved as YAML.')
+        print 'Saved as YAML.'
         yaml_prof = RtsProfile(yaml_spec=yaml_output)
-        print('Loaded YAML.')
+        print 'Loaded YAML.'
         yaml_prof_str = str(yaml_prof)
-        print('Printed YAML.')
-        print()
+        print 'Printed YAML.'
+        print
     except:
         print_exc()
-        print()
+        print
         failed = True
     if yaml_prof_str != orig_prof_str:
-        print('YAML profile does not equal original profile.')
+        print 'YAML profile does not equal original profile.'
         failed = True
     if failed:
-        print('YAML test failed.', file=sys.stderr)
+        print >>sys.stderr, 'YAML test failed.'
         f = open('original_prof.dump', 'w')
         f.write(orig_prof_str)
         f.close()
@@ -121,7 +122,7 @@ This save-load-check process is then repeated for the YAML output.
         f.close()
         return 1
 
-    print('Tests passed.', file=sys.stderr)
+    print >>sys.stderr, 'Tests passed.'
     return 0
 
 
