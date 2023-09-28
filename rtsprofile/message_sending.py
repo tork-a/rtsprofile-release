@@ -366,7 +366,7 @@ class Preceding(Condition):
                            expected_type=int, required=False)
         self._timeout = timeout
         validate_attribute(sending_timing, 'preceding.sendingTiming',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._sending_timing = sending_timing
         validate_attribute(preceding_components,
                            'preceding.PrecedingComponents',
@@ -413,7 +413,7 @@ class Preceding(Condition):
     @sending_timing.setter
     def sending_timing(self, sending_timing):
         validate_attribute(sending_timing, 'preceding.sendingTiming',
-                           expected_type=[str, unicode], required=False)
+                           expected_type=[str, str], required=False)
         self._sending_timing = sending_timing
 
     @property
