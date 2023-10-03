@@ -1,3 +1,26 @@
+## rtsprofile (noetic) - 2.0.0-3
+
+The packages in the `rtsprofile` repository were released into the `noetic` distro by running `/usr/bin/bloom-release rtsprofile --track noetic --rosdistro noetic` on `Tue, 03 Oct 2023 01:08:52 -0000`
+
+The `rtsprofile` package was released.
+
+Version of package(s) in repository `rtsprofile`:
+
+- upstream repository: https://github.com/gbiggs/rtsprofile.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `2.0.0-2`
+- new version: `2.0.0-3`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.1`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## rtsprofile (noetic) - 2.0.0-1
 
 The packages in the `rtsprofile` repository were released into the `noetic` distro by running `/home/k-okada/.local/bin/bloom-release rtsprofile --track noetic --ros-distro noetic` on `Thu, 28 Sep 2023 06:50:27 -0000`
